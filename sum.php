@@ -45,9 +45,13 @@ while($temp_arr = $result->fetch_array()){
 }
 
 $i = 1;
+$hi = 0;
+$me = 0;
 foreach($sum_arr as $h => $v) {
    if ($_POST['onlyTotal']) {
       echo "<TR style=\"text-align: center;\"><TD>".$i."</TD><TD>".$v['Unit']."</TD><TD>".$h."</TD><TD>".intval($v['HSUM'])."</TD><TD>".intval($v['MSUM'])."</TD></TR>\n";
+      $hi += intval($v['HSUM']);
+      $me += intval($v['MSUM']);
       $i++;
    } else {
       foreach($v as $r => $vv) {
@@ -60,6 +64,8 @@ foreach($sum_arr as $h => $v) {
       $i++;
    }
 }
+
+if($_POST['onlyTotal']) echo "<TR style=\"text-align: center; background-color:#009879; height: 30pt; color: white;\"><TD colSpan=3>總計</TD><TD>".$hi."</TD><TD>".$me."</TD></TR>\n";
 
 echo "</TABLE></FORM><BR />";
 
