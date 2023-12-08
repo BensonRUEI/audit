@@ -95,7 +95,7 @@ if($_POST['erase0']) {
 //   $file_encoding = mb_detect_encoding($csvToRead);
 //   echo $file_encoding."\n";
 
-   $p_arr = array("Critical" => 0, "High" => 1, "Medium" => 2, "None" => 3);
+   $p_arr = array("Critical" => 0, "High" => 1, "Medium" => 2, "Low" => 3, "None" => 4);
    while ($temp_arr = my_fgetcsv($csvToRead, 1000, ',')) {
       foreach($temp_arr as $k=>$v) $temp_arr[$k] = mb_convert_encoding($v,"UTF-8","BIG5");
       if ($_POST['user']=="上傳使用者清單") {
