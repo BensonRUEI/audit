@@ -4,12 +4,16 @@ include('header.php');
 echo <<<HTML
 <h1>資料彙總</h1>
 <FORM method="POST" action="sum.php">
-<input type="submit" name="all" value="列出全部"> <input type="submit" name="onlyHM" value="僅列中高"> <input type="submit" name="onlyTotal" value="僅列統計"> <BR /><BR />
+<input type="submit" name="all" value="列出全部"> 
+<input type="submit" name="onlyHM" value="僅列中高"> 
+<input type="submit" name="onlyTotal" value="僅列統計"> 
+<input type="submit" name="sortByIP" value="依IP排序統計">
+<BR /><BR />
 <table style="width: 100%; font-size: 14pt; border-collapse:collapse;">
 <tr style="background-color:#009879; height: 30pt; color: white;">
 HTML;
 
-if($_POST['onlyTotal']) 
+if($_POST['onlyTotal'] || $_POST['sortByIP']) 
 echo <<<HTML
 <th>No.</th>
 <th>Unit</th>
@@ -31,7 +35,10 @@ HTML;
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $link = new mysqli($DB_HOST, $DB_USER, $DB_PASS, "audit");
-$result = $link->query("SELECT * FROM Detail ORDER BY Priority, Host");
+if ($_POST['sortByIP'])
+   $result = $link->query("SELECT * FROM Detail ORDER BY Host, Priority");
+else 
+   $result = $link->query("SELECT * FROM Detail ORDER BY Priority, Host");
 while($temp_arr = $result->fetch_array()){
    $sum_arr[$temp_arr['Host']] = array();
 }
@@ -45,13 +52,9 @@ while($temp_arr = $result->fetch_array()){
 }
 
 $i = 1;
-$hi = 0;
-$me = 0;
 foreach($sum_arr as $h => $v) {
-   if ($_POST['onlyTotal']) {
+   if ($_POST['onlyTotal'] || $_POST['sortByIP']) {
       echo "<TR style=\"text-align: center;\"><TD>".$i."</TD><TD>".$v['Unit']."</TD><TD>".$h."</TD><TD>".intval($v['HSUM'])."</TD><TD>".intval($v['MSUM'])."</TD></TR>\n";
-      $hi += intval($v['HSUM']);
-      $me += intval($v['MSUM']);
       $i++;
    } else {
       foreach($v as $r => $vv) {
@@ -64,8 +67,6 @@ foreach($sum_arr as $h => $v) {
       $i++;
    }
 }
-
-if($_POST['onlyTotal']) echo "<TR style=\"text-align: center; background-color:#009879; height: 30pt; color: white;\"><TD colSpan=3>總計</TD><TD>".$hi."</TD><TD>".$me."</TD></TR>\n";
 
 echo "</TABLE></FORM><BR />";
 

@@ -27,5 +27,5 @@ echo "<span style=\"color: $c1; font-size: 14pt;\"><input type=\"checkbox\" $s1>
 echo "<span style=\"color: $c2; font-size: 14pt;\"><input type=\"checkbox\" $s2> php-mbstring</span><BR /><BR />\n";
 
 echo <<<HTML
-<h2>版本：1.2</h2><BR />
+<h2>版本：1.3</h2><BR />
 HTML;
