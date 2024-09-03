@@ -66,7 +66,9 @@ echo <<<HTML
 <h1>資料重整</h1>
 <form action="import.php" method="post">
 <input type="submit" value="去除資料IP的前置0" name="erase0">
-<input type="submit" value="去除通信埠為0的掃描資料" name="erase1">
+<input type="submit" value="去除通信埠為0的掃描資料" name="erase1"><BR />
+<input type="submit" value="去除「SSL Certificate Cannot Be Trusted」" name="erase2"><BR />
+<input type="submit" value="去除「SSL Self-Signed Certificate」" name="erase3">
 </form><BR />
 <h1>資料匯出</h1>
 <form action="import.php" method="post">
@@ -88,6 +90,14 @@ if($_POST['erase0']) {
 
 } elseif ($_POST['erase1']) {
    $result = $link->query("DELETE FROM Detail where Port='0'");
+   echo "資料重整完成";
+
+} elseif ($_POST['erase2']) {
+   $result = $link->query("DELETE FROM Detail where Name='SSL Certificate Cannot Be Trusted'");
+   echo "資料重整完成";
+
+} elseif ($_POST['erase3']) {
+   $result = $link->query("DELETE FROM Detail where Name='SSL Self-Signed Certificate'");
    echo "資料重整完成";
 
 } elseif($_FILES['filename']['error'] == 0 && $_FILES['filename']['size'] > 0) {
