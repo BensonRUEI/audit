@@ -8,3 +8,4 @@ sudo cp ./default /etc/nginx/sites-available/
 sudo chmod 777 /etc/nginx/sites-enabled/default
 sudo mv *.php /var/www/html
 sudo mv *.csv /var/www/html
+sudo sed -i 's|fastcgi_pass unix:/run/php/php8.2-fpm.sock;|fastcgi_pass unix:/run/php/php8.4-fpm.sock;|' /etc/nginx/sites-enabled/default
